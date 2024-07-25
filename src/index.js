@@ -1,17 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import { StrictMode } from 'react';
+import ReactDOM from 'react-dom';
+import { useHistory } from 'react-router-dom';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { IntlProvider } from 'react-intl';
+import en from './locale/en.json';
+import vi from './locale/vi.json';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+const rootElement = document.getElementById('root');
+let locale;
+
+console.log(window.location.pathname);
+let translationsForUsersLocale = '';
+if (window.location.pathname === '/en') {
+  locale = 'en';
+  translationsForUsersLocale = en;
+} else {
+  locale = 'vi';
+  translationsForUsersLocale = vi;
+}
+
+ReactDOM.render(
+  <StrictMode>
+    <IntlProvider locale={locale} messages={translationsForUsersLocale}>
+      <App />
+    </IntlProvider>
+    ,
+  </StrictMode>,
+  rootElement
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
